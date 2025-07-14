@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta LMD</title>
+</head>
+<body>
+    <h1>Pesquisar Registros LMD</h1>
+    <input type="text" id="busca" placeholder="Digite o nome ou protocolo">
+    <button onclick="buscar()">Buscar</button>
+    <div id="resultados"></div>
+
+    <h2>Adicionar Novo Registro</h2>
+    <form id="formulario">
+        <input type="text" placeholder="Nome" id="nome" required>
+        <input type="text" placeholder="Protocolo" id="protocolo" required>
+        <input type="text" placeholder="Data de Registro" id="dataRegistro" required>
+        <input type="text" placeholder="Local" id="local" required>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        function buscar() {
+            const termo = document.getElementById('busca').value;
+            fetch(`/api/registros/protocolo/${termo}`)
+                .then(r => r.json())
+                .then(data => {
+                    let html = '<ul>';
+                    data.forEach(item => {
+                        html += `<li>${item.nome} - ${item.protocolo} - ${item.dataRegistro} - ${item.local}</li>`;
+                    });
+                    html += '</ul>';
+                    document.getElementById('resultados').innerHTML = html;
+                });
+        }
+
+        document.getElementById('formulario').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const novo = {
+                nome: document.getElementById('nome').value,
+                protocolo: document.getElementById('protocolo').value,
+                dataRegistro: document.getElementById('dataRegistro').value,
+                local: document.getElementById('local').value
+            };
+            fetch('/api/registros', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(novo)
+            })
+            .then(res => res.json())
+            .then(() => {
+                alert('Registro adicionado com sucesso!');
+                document.getElementById('formulario').reset();
+            });
+        });
+    </script>
+</body>
+</html>
