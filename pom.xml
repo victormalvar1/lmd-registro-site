@@ -15,7 +15,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.12</version>
-        <relativePath/>
+        <relativePath/> <!-- busca o parent no repositório central -->
     </parent>
 
     <properties>
@@ -39,6 +39,7 @@
     </dependencies>
 
     <build>
+        <finalName>lmd-registro-0.0.1-SNAPSHOT</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -48,6 +49,5 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>lmd-registro-0.0.1-SNAPSHOT</finalName>
     </build>
 </project>
